@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/pdfdetacher/static/css/main.f1599ac5.css",
-    "main.js": "/pdfdetacher/static/js/main.6cf0b120.js",
+    "main.js": "/pdfdetacher/static/js/main.4486a79b.js",
     "static/js/453.a0f00bff.chunk.js": "/pdfdetacher/static/js/453.a0f00bff.chunk.js",
     "service-worker.js": "/pdfdetacher/service-worker.js",
     "index.html": "/pdfdetacher/index.html",
     "main.f1599ac5.css.map": "/pdfdetacher/static/css/main.f1599ac5.css.map",
-    "main.6cf0b120.js.map": "/pdfdetacher/static/js/main.6cf0b120.js.map",
+    "main.4486a79b.js.map": "/pdfdetacher/static/js/main.4486a79b.js.map",
     "453.a0f00bff.chunk.js.map": "/pdfdetacher/static/js/453.a0f00bff.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f1599ac5.css",
-    "static/js/main.6cf0b120.js"
+    "static/js/main.4486a79b.js"
   ]
 }
