@@ -2,18 +2,14 @@ import React, { useState, useEffect } from 'react'
 import './App.css'
 import Dropzone from 'react-dropzone'
 import ReactLoading from 'react-loading'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import {
-  findCBUsInText,
-  readImage,
   readPDF,
   fileListToFileArray
-} from './cbu'
+} from './extractor'
 
 function App (): JSX.Element {
   const [results, setResults] = useState<string[] | null>(null)
   const [progress, setProgress] = useState<number | null>(null)
-  const [copied, setCopied] = useState('')
   const [error, setError] = useState(false)
   const [hash, setHash] = useState('')
 
@@ -54,13 +50,12 @@ function App (): JSX.Element {
       setResults(null)
       setProgress(0)
       const results = await Promise.all(acceptedFiles.map(async (f) => {
-        const [resultsPDF, resultsImage] = await Promise.allSettled([readPDF(f), readImage(f)])
+        const [resultsPDF] = await Promise.allSettled([readPDF(f)])
         return [
-          ...(resultsPDF.status === 'fulfilled' ? resultsPDF.value : []),
-          ...(resultsImage.status === 'fulfilled' ? resultsImage.value : [])
+          ...(resultsPDF.status === 'fulfilled' ? resultsPDF.value : [])
         ]
       }))
-      setResults([...results.flat(), ...(findCBUsInText(text ?? ''))])
+      setResults([...results.flat()])
       setProgress(1)
     })().catch((err: Error) => {
       console.error({ err })
@@ -104,10 +99,6 @@ function App (): JSX.Element {
           {!error && results !== null && results.length > 0 && <ul>{results.map((r: string, i) => (
             <li key={i}>
               <p>{r}</p>
-              <CopyToClipboard text={r}
-                onCopy={() => { setCopied(r) }}>
-                <button>{r === copied ? 'Copiado' : 'Copiar'}</button>
-              </CopyToClipboard>
             </li>
           ))}</ul>}
           {!error && results !== null && results.length === 0 && <div id="noresults"><p>No se encontraron CBUs</p></div>}

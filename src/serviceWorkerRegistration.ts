@@ -101,6 +101,7 @@ function registerValidSW (swUrl: string, config?: Config): void {
     })
 }
 
+/* eslint-disable @typescript-eslint/promise-function-async */
 function checkValidServiceWorker (swUrl: string, config?: Config): void {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl, {

@@ -1,7 +1,7 @@
 {
-  "name": "leemeelcbu.com",
+  "name": "pdfdetacher",
   "version": "0.1.0",
-  "homepage": "https://seppo0010.github.io/leemeelcbu.com/",
+  "homepage": "https://seppo0010.github.io/pdfdetacher/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -12,12 +12,10 @@
     "@types/react-dom": "^18.0.6",
     "pdfjs-dist": "^2.15.349",
     "react": "^18.2.0",
-    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.2",
     "react-loading": "^2.0.3",
     "react-scripts": "5.0.1",
-    "tesseract.js": "^2.1.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -48,7 +46,6 @@
     ]
   },
   "devDependencies": {
-    "@types/react-copy-to-clipboard": "^5.0.4",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "eslint": "^8.31.0",
     "eslint-config-standard-with-typescript": "^27.0.1",
