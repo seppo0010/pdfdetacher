@@ -1,21 +1,18 @@
 import * as pdfjsLib from 'pdfjs-dist'
-pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.15.349/pdf.worker.js'
+pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.149/pdf.worker.mjs'
 
-export async function readPDF (f: File): Promise<string[]> {
+export interface Attachment {
+  filename: string
+  content: Uint8Array
+}
+
+export async function readPDF (f: File): Promise<Attachment[]> {
   if (f.type !== 'application/pdf') return []
   const loadingTask = pdfjsLib.getDocument(new Uint8Array(await f.arrayBuffer()))
   const pdf = await loadingTask.promise
-  const attachments: string[] = []
-
-  for (let i = 0; i < pdf.numPages; i++) {
-    const page = await pdf.getPage(i + 1)
-    const texts = await page.getTextContent()
-    for (const item of texts.items) {
-      attachments.push('1')
-      console.log({ item })
-    }
-  }
-  return attachments
+  const attachments: null | Map<string, Attachment> = await pdf.getAttachments()
+  if (attachments === null) return []
+  return Object.values(attachments)
 }
 
 export function fileListToFileArray (f?: FileList): File[] {

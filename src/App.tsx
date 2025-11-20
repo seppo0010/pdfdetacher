@@ -3,12 +3,13 @@ import './App.css'
 import Dropzone from 'react-dropzone'
 import ReactLoading from 'react-loading'
 import {
+  Attachment,
   readPDF,
   fileListToFileArray
 } from './extractor'
 
 function App (): JSX.Element {
-  const [results, setResults] = useState<string[] | null>(null)
+  const [results, setResults] = useState<Attachment[] | null>(null)
   const [progress, setProgress] = useState<number | null>(null)
   const [error, setError] = useState(false)
   const [hash, setHash] = useState('')
@@ -88,7 +89,7 @@ function App (): JSX.Element {
           <div {...getRootProps()} id="dropzone">
             <input {...getInputProps()} />
             <p>
-              Subime tu imagen con un CBU acá
+              Subime tu PDF con adjuntos acá
             </p>
           </div>
         )}
@@ -96,12 +97,26 @@ function App (): JSX.Element {
       {!error && results === null && progress !== null && <div id="loading"><ReactLoading type="bars" color="#333" /></div>}
       {(error || results !== null) && <div id="results">
         <div>
-          {!error && results !== null && results.length > 0 && <ul>{results.map((r: string, i) => (
+          {!error && results !== null && results.length > 0 && <ul>{results.map((r: Attachment, i) => (
             <li key={i}>
-              <p>{r}</p>
+              <p>{r.filename}</p>
+              <button onClick={() => {
+                const blob = new Blob([r.content.buffer], {
+                  type: 'application/pdf'
+                })
+                const url = window.URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = r.filename
+                document.body.appendChild(a)
+                a.style.display = 'none'
+                a.click()
+                a.remove()
+                setTimeout(() => { window.URL.revokeObjectURL(url) }, 1000)
+              }}>Descargar</button>
             </li>
           ))}</ul>}
-          {!error && results !== null && results.length === 0 && <div id="noresults"><p>No se encontraron CBUs</p></div>}
+          {!error && results !== null && results.length === 0 && <div id="noresults"><p>No se encontraron adjuntos</p></div>}
           {error && <div id="noresults"><p>Algo salió mal...</p></div>}
           <button onClick={() => { setResults(null); setProgress(null) }}>Volver a empezar</button>
         </div>
